@@ -62,7 +62,8 @@ export const ProfilePage = () => {
 
     return (
         <>
-            {!loading && profile && fan && <Profile fan={fan} putProfile={putProfile} profile={profile}/>}
+            {!loading && profile && fan &&
+            <Profile fan={fan} token={token} getProfile={getProfile} putProfile={putProfile} profile={profile}/>}
         </>
     )
 }

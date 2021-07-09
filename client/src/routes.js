@@ -4,6 +4,7 @@ import {AuthPage} from "./pages/AuthPage";
 import {MainPage} from "./pages/MainPage";
 import {SignUp} from "./pages/SignUpPage";
 import {About} from "./pages/AboutUs"
+import {MyFanFics} from "./pages/MyFanficsPage"
 import {ProfilePage} from "./pages/ProfilePage";
 
 export const useRoutes = isAuthenticated => {
@@ -18,6 +19,9 @@ export const useRoutes = isAuthenticated => {
                 </Route>
                 <Route path="/about" exact>
                     <About/>
+                </Route>
+                <Route path="/my-fanfics" exact>
+                    <MyFanFics/>
                 </Route>
             </Switch>
         )
