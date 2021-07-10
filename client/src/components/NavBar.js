@@ -3,6 +3,7 @@ import {Popover, Transition} from '@headlessui/react'
 import {
     BookmarkAltIcon,
     CalendarIcon,
+    TrashIcon,
     ChartBarIcon,
     CursorClickIcon,
     MenuIcon,

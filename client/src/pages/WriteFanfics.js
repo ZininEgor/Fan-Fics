@@ -1,10 +1,12 @@
 import React from 'react'
 import {FanficsProfile} from "../components/FanficsProfile";
 
-export const MyFanFics = () => {
+export const WriteFanfic = () => {
 
 
     return (
-        <FanficsProfile/>
+        <h1>
+
+        </h1>
     )
 }

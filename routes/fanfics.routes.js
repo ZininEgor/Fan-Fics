@@ -74,13 +74,26 @@ router.delete(
     }
 )
 
+
 router.get(
     '/',
     auth,
     async (request, response) => {
         try {
-            const fanfics = await Fanfic.find({user: request.user.userId})
-            response.json([...fanfics])
+            const pageOptions = {
+                page: parseInt(request.query.page, 10) || 0,
+                limit: parseInt(request.query.limit, 10) || 10
+            }
+            await Fanfic.find({user: request.user.userId})
+                .skip(pageOptions.page * pageOptions.limit)
+                .limit(pageOptions.limit)
+                .exec(function (err, doc) {
+                    if (err) {
+                        response.status(500).json(err);
+                        return;
+                    }
+                    response.json([...doc])
+                })
         } catch (e) {
             response.status(500).json({message: e + 'Что-то пошло не так, попробуйте снова'})
         }

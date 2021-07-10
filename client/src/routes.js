@@ -6,6 +6,7 @@ import {SignUp} from "./pages/SignUpPage";
 import {About} from "./pages/AboutUs"
 import {MyFanFics} from "./pages/MyFanficsPage"
 import {ProfilePage} from "./pages/ProfilePage";
+import {WriteFanfic} from "./pages/WriteFanfics";
 
 export const useRoutes = isAuthenticated => {
     if (isAuthenticated) {
@@ -22,6 +23,9 @@ export const useRoutes = isAuthenticated => {
                 </Route>
                 <Route path="/my-fanfics" exact>
                     <MyFanFics/>
+                </Route>
+                <Route path="/write-fanfic" exact>
+                    <WriteFanfic/>
                 </Route>
             </Switch>
         )
