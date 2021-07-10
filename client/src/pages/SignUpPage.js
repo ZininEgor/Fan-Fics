@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {LockClosedIcon} from "@heroicons/react/solid";
 import {useHttp} from "../hooks/http.hook";
+import {NavLink} from "react-router-dom";
 
 export const SignUp = () => {
     const {loading, error, request} = useHttp()
@@ -33,11 +34,15 @@ export const SignUp = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
-                    <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                        alt="Workflow"
-                    />
+                    <NavLink to="/"  className="md-2 text-center">
+                        <span className="sr-only">Workflow</span>
+                        <p
+                            className="text-4xl font-black leading-none text-gray-900 select-none logo"
+                            bis_skin_checked={1}
+                        >
+                            Fan-Fics<span className="text-indigo-600">.</span>
+                        </p>
+                    </NavLink>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Создайте свой аккаунт</h2>
                 </div>
                 <form className="mt-8 space-y-6" action="#" method="POST">

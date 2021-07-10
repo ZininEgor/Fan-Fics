@@ -7,6 +7,8 @@ import {About} from "./pages/AboutUs"
 import {MyFanFics} from "./pages/MyFanficsPage"
 import {ProfilePage} from "./pages/ProfilePage";
 import {WriteFanfic} from "./pages/WriteFanfics";
+import {DetailFanfic} from "./pages/DetailFanfics";
+import {MainFanficPage} from "./pages/MainFanficPage";
 
 export const useRoutes = isAuthenticated => {
     if (isAuthenticated) {
@@ -21,11 +23,17 @@ export const useRoutes = isAuthenticated => {
                 <Route path="/about" exact>
                     <About/>
                 </Route>
+                <Route path="/my-fanfiction/detail/:id">
+                    <DetailFanfic/>
+                </Route>
                 <Route path="/my-fanfics" exact>
                     <MyFanFics/>
                 </Route>
                 <Route path="/write-fanfic" exact>
                     <WriteFanfic/>
+                </Route>
+                <Route path="/fanfics" exact>
+                    <MainFanficPage/>
                 </Route>
             </Switch>
         )
@@ -34,6 +42,9 @@ export const useRoutes = isAuthenticated => {
         <Switch>
             <Route path="/sign-in" exact>
                 <AuthPage/>
+            </Route>
+            <Route path="/fanfics" exact>
+                <MainFanficPage/>
             </Route>
             <Route path="/sign-up" exact>
                 <SignUp/>

@@ -33,7 +33,7 @@ router.put(
         try {
             const {title, body, fanfiction, url_photo, id_fanfic} = request.body
             const fanfic = await Fanfic.findOneAndUpdate(
-                {_id: id_fanfic},
+                {_id: id_fanfic, user: request.user.userId},
                 {
                     $set: {
                         title: title,
@@ -63,7 +63,7 @@ router.delete(
         try {
             const {id_fanfic} = request.body
             const fanfic = await Fanfic.deleteOne(
-                {_id: id_fanfic},
+                {_id: id_fanfic, user: request.user.userId},
             )
             response.json({
                 message: 'ok'
@@ -84,7 +84,16 @@ router.get(
                 page: parseInt(request.query.page, 10) || 0,
                 limit: parseInt(request.query.limit, 10) || 10
             }
-            await Fanfic.find({user: request.user.userId})
+
+            let query = {
+                user: request.user.userId
+            }
+            if ((request.query.filter || "fanfiction") !== "fanfiction") {
+                query.fanfiction = request.query.filter || "fanfiction"
+            }
+
+
+            await Fanfic.find(query)
                 .skip(pageOptions.page * pageOptions.limit)
                 .limit(pageOptions.limit)
                 .exec(function (err, doc) {
@@ -100,5 +109,20 @@ router.get(
     }
 )
 
+router.get(
+    '/:id',
+    auth,
+    async (request, response) => {
+        try {
+            const fanfic = await Fanfic.findById(request.params.id)
+            response.json({
+                fanfic
+            })
+
+        } catch (e) {
+            response.status(500).json({message: e + 'Что-то пошло не так, попробуйте снова'})
+        }
+    }
+)
 
 module.exports = router

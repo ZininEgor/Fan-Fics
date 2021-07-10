@@ -3,16 +3,9 @@ import {Popover, Transition} from '@headlessui/react'
 import {
     BookmarkAltIcon,
     CalendarIcon,
-    TrashIcon,
-    ChartBarIcon,
-    CursorClickIcon,
     MenuIcon,
-    PhoneIcon,
-    PlayIcon,
-    RefreshIcon,
     ShieldCheckIcon,
     SupportIcon,
-    ViewGridIcon,
     XIcon,
 } from '@heroicons/react/outline'
 import {ChevronDownIcon} from '@heroicons/react/solid'
@@ -83,18 +76,21 @@ export default function NavBar() {
                             <div className="flex justify-start lg:w-0 lg:flex-1">
                                 <NavLink to="/">
                                     <span className="sr-only">Workflow</span>
-                                    <img
-                                        className="h-8 w-auto sm:h-10"
-                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                        alt="/"
-                                    />
+                                    <p
+                                        className="text-4xl font-black leading-none text-gray-900 select-none logo"
+                                        bis_skin_checked={1}
+                                    >
+                                        Fan-Fics<span className="text-indigo-600">.</span>
+                                    </p>
                                 </NavLink>
                                 <NavLink
                                     to="/"
-                                    className="pl-5 whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                                    className="pl-8 pt-2 text-base font-medium text-gray-500 hover:text-gray-900"
                                     onClick={darkMode}
                                 >
-                                    dark mode
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                    </svg>
                                 </NavLink>
                             </div>
                             <div className="-mr-2 -my-2 md:hidden">
@@ -108,14 +104,14 @@ export default function NavBar() {
 
                                 <NavLink to="/about"
                                          className="text-base font-medium text-gray-500 hover:text-gray-900">
-                                    About us
+                                    О нас
                                 </NavLink>
 
                                 {
                                     auth.isAuthenticated &&
                                     <NavLink to="/my-fanfics"
                                              className="text-base font-medium text-gray-500 hover:text-gray-900">
-                                        My fanfics
+                                        Мои фанфики
                                     </NavLink>
                                 }
 
@@ -128,7 +124,7 @@ export default function NavBar() {
                                                     'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                                                 )}
                                             >
-                                                <span>Fanfiction</span>
+                                                <span>Категории</span>
                                                 <ChevronDownIcon
                                                     className={classNames(
                                                         open ? 'text-gray-600' : 'text-gray-400',
@@ -187,7 +183,7 @@ export default function NavBar() {
                                                     'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                                                 )}
                                             >
-                                                <span>Crossovers</span>
+                                                <span>Кроссоверы</span>
                                                 <ChevronDownIcon
                                                     className={classNames(
                                                         open ? 'text-gray-600' : 'text-gray-400',
@@ -245,13 +241,13 @@ export default function NavBar() {
                                         to="/sign-in"
                                         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                     >
-                                        Sign in
+                                        Войти
                                     </NavLink>
                                     <NavLink
                                         to="/sign-up"
                                         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                     >
-                                        Sign up
+                                        Зарегистрироваться
                                     </NavLink>
                                 </div>
                             }
@@ -262,14 +258,14 @@ export default function NavBar() {
                                         to="/profile"
                                         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                     >
-                                        profile
+                                        Профиль
                                     </NavLink>
                                     <NavLink
                                         to="/"
                                         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                         onClick={logoutHandler}
                                     >
-                                        logout
+                                        Выйти
                                     </NavLink>
                                 </div>
                             }
@@ -336,12 +332,12 @@ export default function NavBar() {
 
                                             className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                         >
-                                            Sign up
+                                            Зарегистрироваться
                                         </a>
                                         <p className="mt-6 text-center text-base font-medium text-gray-500">
                                             Existing customer?{' '}
                                             <a className="text-indigo-600 hover:text-indigo-500">
-                                                Sign in
+                                                Войти
                                             </a>
                                         </p>
                                     </div>

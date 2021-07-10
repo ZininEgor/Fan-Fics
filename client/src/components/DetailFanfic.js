@@ -7,17 +7,47 @@ import {AuthContext} from "../context/AuthContext";
 import {useHttp} from "../hooks/http.hook";
 import {Loader} from "./Loader";
 import {useHistory} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 
-export default function WriteMyFanfic() {
+export default function DetailMyFanfic() {
 
 
     const {token} = useContext(AuthContext)
+    const id = useParams().id
     const {request, loading} = useHttp()
     const [fanfictions, setFanfictions] = useState()
+    const [fanfick, setFanfick] = useState()
     const [text, setText] = useState()
     const [title, setTitle] = useState(null)
     const [currentFanfiction, setCurrentFanfiction] = useState(null)
     const history = useHistory()
+
+    const getFanfic = useCallback(async () => {
+        try {
+            const fetched = await request(`/api/my-fanfiction/${id}`, 'GET', null,{
+                Authorization: `Bearer ${token}`
+            })
+            setTitle(fetched.fanfic.title)
+            setText(fetched.fanfic.body)
+            setCurrentFanfiction(fetched.fanfic.fanfiction)
+        } catch (e) {
+        }
+    }, [request])
+
+    const updateFanfic = useCallback(async (_title, body, fanfiction) => {
+        try {
+            const fetched = await request('/api/my-fanfiction', 'PUT', {
+                    title: _title,
+                    body: body,
+                    id_fanfic: id,
+                    fanfiction: fanfiction,
+                },
+                {
+                    Authorization: `Bearer ${token}`
+                })
+        } catch (e) {
+        }
+    }, [request])
 
     const getFanfiction = useCallback(async () => {
         try {
@@ -27,24 +57,15 @@ export default function WriteMyFanfic() {
         }
     }, [request])
 
-    const writeFanfic = useCallback(async (_title, body, fanfiction) => {
-        try {
-            const fetched = await request('api/my-fanfiction', 'POST', {
-                    title: _title,
-                    body: body,
-                    fanfiction: fanfiction,
-                },
-                {
-                    Authorization: `Bearer ${token}`
-                })
-            history.push(`/my-fanfiction/detail/${fetched._id}`)
-        } catch (e) {
-        }
-    }, [request])
+
+    useEffect(() => {
+        getFanfic()
+    }, [getFanfic])
 
     useEffect(() => {
         getFanfiction()
     }, [getFanfiction])
+
 
 
     const mdParser = new MarkdownIt()
@@ -65,8 +86,8 @@ export default function WriteMyFanfic() {
         return <Loader/>
     }
 
-    const save = ()=> {
-        writeFanfic(title, text, currentFanfiction)
+    const save = () => {
+        updateFanfic(title, text, currentFanfiction)
     }
     return (
         <>
@@ -90,6 +111,7 @@ export default function WriteMyFanfic() {
                                                 type="text"
                                                 name="first-name"
                                                 id="first-name"
+                                                defaultValue={title}
                                                 onChange={changeTitleHandler}
                                                 autoComplete="given-name"
                                                 className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -110,6 +132,9 @@ export default function WriteMyFanfic() {
                                             >
                                                 {
                                                     fanfictions.map(function (f, index) {
+                                                        if (f._id === currentFanfiction){
+                                                            return <option key={index} selected="selected" value={f._id}>{f.name}</option>
+                                                        }
                                                         return <option key={index} value={f._id}>{f.name}</option>
                                                     })
                                                 }
@@ -117,7 +142,7 @@ export default function WriteMyFanfic() {
                                         </div>
 
                                         <div className="col-span-6">
-                                            <MdEditor style={{height: '500px'}} defaultValue={""}
+                                            <MdEditor style={{height: '500px'}} defaultValue={text}
                                                       renderHTML={text => mdParser.render(text)}
                                                       onChange={handleEditorChange}/>
                                         </div>

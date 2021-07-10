@@ -8,13 +8,14 @@ import {EmptyFanFics} from "./EmptyMyFanfics";
 export const FanficsProfile = () => {
 
     const [pageNumber, setPageNumber] = useState(0)
+    const [currentFanfiction, setCurrentFanfiction] = useState("fanfiction")
     const {token} = useContext(AuthContext)
     const {request, loading} = useHttp()
     const [fanfics, setFanfics] = useState(null)
     const [fanfictions, setFanfictions] = useState(null)
-    const getMyFanfics = useCallback(async (page_number, limit) => {
+    const getMyFanfics = useCallback(async (page_number, filter = "fanfiction") => {
         try {
-            const fetched = await request(`api/my-fanfiction?page=${page_number}`, 'GET', null, {
+            const fetched = await request(`api/my-fanfiction?page=${page_number}&filter=${filter}`, 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setFanfics(fetched)
@@ -29,7 +30,7 @@ export const FanficsProfile = () => {
             }, {
                 Authorization: `Bearer ${token}`
             })
-            getMyFanfics(pageNumber)
+            getMyFanfics(pageNumber, currentFanfiction)
         } catch (e) {
         }
     }, [token, request])
@@ -56,6 +57,11 @@ export const FanficsProfile = () => {
 
     if (loading) {
         return <Loader/>
+    }
+
+    const selectFanfiction = (value) => {
+        setCurrentFanfiction(value)
+        getMyFanfics(pageNumber, value)
     }
 
     if (!loading && fanfics === null || fanfics.length === 0) {
@@ -92,6 +98,29 @@ export const FanficsProfile = () => {
                         className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
                         <div
                             className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
+                            <div className="flex items-center lg:border-l lg:border-r border-gray-300 dark:border-gray-200 py-3 lg:py-0 lg:px-8">
+                                <label htmlFor="country"
+                                       className="block text-sm font-medium px-6 text-gray-700">
+                                    Fanfictions
+                                </label>
+                                <select
+                                    id="country"
+                                    name="country"
+                                    onChange={e => selectFanfiction(e.target.value)}
+                                    autoComplete="country"
+                                    className="block w-full px-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                    {
+                                        fanfictions.map(function (f, index) {
+                                            if (f._id === currentFanfiction){
+                                                return <option key={index} selected="selected" value={f._id}>{f.name}</option>
+                                            }
+                                            return <option key={index} value={f._id}>{f.name}</option>
+                                        })
+                                    }
+                                    <option key={62} value={"fanfiction"}>All</option>
+                                </select>
+                            </div>
                             <div
                                 className="flex items-center lg:border-l lg:border-r border-gray-300 dark:border-gray-200 py-3 lg:py-0 lg:px-6">
                                 <p className="text-base text-gray-600 dark:text-gray-400" id="page-view">
@@ -167,7 +196,7 @@ export const FanficsProfile = () => {
                                             <div className="w-2 h-2 rounded-full bg-indigo-400"/>
                                         </td>
                                         <td className="pr-8 relative">
-                                            <button
+                                            <NavLink to={`/my-fanfiction/detail/${f._id}`}
                                                 className="text-gray-500 rounded cursor-pointer border border-transparent focus:outline-none">
                                                 <svg xmlns="http://www.w3.org/2000/svg" onClick="dropdownFunction(this)"
                                                      className="icon icon-tabler icon-tabler-dots-vertical dropbtn"
@@ -180,7 +209,7 @@ export const FanficsProfile = () => {
                                                     <circle cx={12} cy={19} r={1}/>
                                                     <circle cx={12} cy={5} r={1}/>
                                                 </svg>
-                                            </button>
+                                            </NavLink>
                                         </td>
                                         <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
                                             <svg id={f._id} type='button' onClick={DeleteFanfics}

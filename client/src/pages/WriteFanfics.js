@@ -1,12 +1,11 @@
 import React from 'react'
-import {FanficsProfile} from "../components/FanficsProfile";
+import WriteMyFanfic from "../components/WriteFanfics";
 
 export const WriteFanfic = () => {
 
-
     return (
-        <h1>
-
-        </h1>
+        <div>
+            <WriteMyFanfic/>
+        </div>
     )
 }

@@ -5,14 +5,13 @@ import {useRoutes} from "./routes";
 import {useAuth} from "./hooks/auth.hook";
 import NavBar from "./components/NavBar";
 import {Loader} from "./components/Loader";
-
+import {Footer} from "./components/footer";
 
 
 function App() {
     const {token, login, logout, userId, ready} = useAuth()
     const isAuthenticated = !!token
     const routes = useRoutes(isAuthenticated)
-
 
 
     if (!ready) {
@@ -24,8 +23,11 @@ function App() {
             token, login, logout, userId, isAuthenticated
         }}>
             <Router>
-                <NavBar/>
+                <div className="min-h-screen">
+                    <NavBar/>
                     {routes}
+                    <Footer/>
+                </div>
             </Router>
         </AuthContext.Provider>
     )
