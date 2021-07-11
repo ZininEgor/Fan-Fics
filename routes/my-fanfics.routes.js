@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const auth = require('../middleware/profile.middleware')
 const Fanfic = require('../models/Fanfic')
+const User = require('../models/User')
 const router = Router()
 
 router.post(
@@ -8,17 +9,19 @@ router.post(
     auth,
     async (request, response) => {
         try {
-            const {title, body, fanfiction, url_photo} = request.body
+            const {title, body, fanfiction} = request.body
+            const user = await User.findById(request.user.userId)
             const fanfic = new Fanfic({
                 user: request.user.userId,
+                user_name: user.name,
                 title: title,
                 body: body,
                 fanfiction: fanfiction,
-                url_photo: url_photo,
+                url_photo: user.photo_url,
             })
             await fanfic.save()
             response.json({
-                _id: fanfic._id
+                _id: fanfic._id,
             })
         } catch (e) {
             response.status(500).json({message: e + 'Что-то пошло не так, попробуйте снова'})

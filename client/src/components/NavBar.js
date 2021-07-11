@@ -70,7 +70,7 @@ export default function NavBar() {
         <Popover className="relative bg-white dark:bg-black">
             {({open}) => (
                 <>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="max-w-11xl mx-auto px-4 sm:px-6">
                         <div
                             className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
                             <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -238,6 +238,15 @@ export default function NavBar() {
                                 !auth.isAuthenticated &&
                                 <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                                     <NavLink
+                                        to="/"
+                                        className="text-gray-500 hover:text-gray-900"
+                                        onClick={darkMode}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                        </svg>
+                                    </NavLink>
+                                    <NavLink
                                         to="/sign-in"
                                         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                     >
@@ -254,6 +263,15 @@ export default function NavBar() {
                             {
                                 auth.isAuthenticated &&
                                 <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                                    <NavLink
+                                        to="/"
+                                        className="text-gray-500 hover:text-gray-900"
+                                        onClick={darkMode}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                        </svg>
+                                    </NavLink>
                                     <NavLink
                                         to="/profile"
                                         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"

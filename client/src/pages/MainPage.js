@@ -157,18 +157,18 @@ export const MainPage = () => {
                         Кликай по ссылкам и погружайся в любимые миры
                     </p>
                     <div className="flex justify-center mt-8 space-x-3">
-                        <a
-                            href="#"
+                        <NavLink
+                            to="/fanfics"
                             className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-700 border border-transparent rounded-md shadow hover:bg-indigo-800"
                         >
                             Фанфики
-                        </a>
-                        <a
-                            href="#"
+                        </NavLink>
+                        <NavLink
+                            to="/about"
                             className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-indigo-800 bg-indigo-200 border border-transparent rounded-md hover:bg-indigo-300"
                         >
                             О нас
-                        </a>
+                        </NavLink>
                     </div>
                 </div>
             </section>

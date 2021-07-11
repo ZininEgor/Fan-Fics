@@ -11,11 +11,11 @@ export const FanficsProfile = () => {
     const [currentFanfiction, setCurrentFanfiction] = useState("fanfiction")
     const {token} = useContext(AuthContext)
     const {request, loading} = useHttp()
-    const [fanfics, setFanfics] = useState(null)
     const [fanfictions, setFanfictions] = useState(null)
+    const [fanfics, setFanfics] = useState(null)
     const getMyFanfics = useCallback(async (page_number, filter = "fanfiction") => {
         try {
-            const fetched = await request(`api/my-fanfiction?page=${page_number}&filter=${filter}`, 'GET', null, {
+            const fetched = await request(`/api/my-fanfiction?page=${page_number}&filter=${filter}`, 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setFanfics(fetched)
@@ -25,7 +25,7 @@ export const FanficsProfile = () => {
 
     const deleteFanfic = useCallback(async (id) => {
         try {
-            const fetched = await request(`api/my-fanfiction`, 'DELETE', {
+            const fetched = await request(`/api/my-fanfiction`, 'DELETE', {
                 id_fanfic: id,
             }, {
                 Authorization: `Bearer ${token}`
@@ -92,7 +92,7 @@ export const FanficsProfile = () => {
 
     return (
         <div className="bg-gray-50">
-            <div className="py-20">
+            <div className="py-4">
                 <div className="mx-auto container bg-white dark:bg-gray-800 shadow rounded">
                     <div
                         className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
@@ -166,8 +166,7 @@ export const FanficsProfile = () => {
                         <table className="min-w-full bg-white dark:bg-gray-800">
                             <thead>
                             <tr className="w-full h-16 border-gray-300 dark:border-gray-200 border-b py-8">
-                                <th className="text-gray-600 pl-5 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">Company
-                                    Contact
+                                <th className="text-gray-600 pl-5 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">Автор
                                 </th>
                                 <th className="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">Title</th>
                                 <th className="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">Like</th>
@@ -181,7 +180,7 @@ export const FanficsProfile = () => {
                                 fanfics.map(function (f) {
                                     return <tr className="h-24 border-gray-300 dark:border-gray-200 border-b">
 
-                                        <td className="text-sm pr-6 pl-5 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">#MC10023</td>
+                                        <td className="text-sm pr-6 pl-5 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">Я</td>
                                         <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">{f.title}</td>
                                         <td className="pr-6 whitespace-no-wrap">
                                             <p className="ml-2 text-gray-800 dark:text-gray-100 tracking-normal leading-4 text-sm">{f.liked.length}</p>
@@ -212,13 +211,12 @@ export const FanficsProfile = () => {
                                             </NavLink>
                                         </td>
                                         <td className="text-sm pr-6 whitespace-no-wrap text-gray-800 dark:text-gray-100 tracking-normal leading-4">
-                                            <svg id={f._id} type='button' onClick={DeleteFanfics}
-                                                 xmlns="http://www.w3.org/2000/svg"
-                                                 className="h-7 w-7 rounded-lg shadow-md hover:bg-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
-                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                            </svg>
+                                            <button
+                                                id={f._id}
+                                                onClick={DeleteFanfics}
+                                                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-indigo-600 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-md">
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 })
