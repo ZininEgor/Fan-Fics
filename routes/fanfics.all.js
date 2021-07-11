@@ -44,4 +44,104 @@ router.get(
     })
 
 
+router.get(
+    '/:id',
+    async (request, response) => {
+        try {
+            const fanfic = await Fanfic.findById(request.params.id)
+            response.json({
+                fanfic
+            })
+
+        } catch (e) {
+            response.status(500).json({message: e + 'Что-то пошло не так, попробуйте снова'})
+        }
+    }
+)
+
+router.post(
+    '/like/:id',
+    async (request, response) => {
+        try {
+            const {user_id} = request.body
+            const fanfic = await Fanfic.findById(request.params.id)
+            if (fanfic.dis_liked.indexOf(user_id) !== -1)
+            {
+                const index = fanfic.dis_liked.indexOf(user_id)
+                fanfic.dis_liked.splice(index, 1)
+            }
+            if (fanfic.liked.length === 0) {
+                fanfic.liked = [user_id]
+                await Fanfic.findOneAndUpdate({_id: request.params.id}, {
+                    $set: {
+                        liked: [...fanfic.liked],
+                        dis_liked: [...fanfic.dis_liked]
+                    }
+                })
+            } else {
+                if (fanfic.liked.indexOf(user_id) === -1) {
+                    fanfic.liked.push(user_id)
+                    await Fanfic.findOneAndUpdate({_id: request.params.id}, {
+                        $set: {
+                            dis_liked: [...fanfic.dis_liked],
+                            liked: [...fanfic.liked],
+                        }
+                    })
+                }
+            }
+            response.json({
+                liked: fanfic.liked,
+                dis_liked: fanfic.dis_liked
+            })
+
+
+        } catch (e) {
+            response.status(500).json({message: e + 'Что-то'})
+        }
+    }
+)
+
+router.post(
+    '/dislike/:id',
+    async (request, response) => {
+        try {
+            const {user_id} = request.body
+            const fanfic = await Fanfic.findById(request.params.id)
+            if (fanfic.liked.indexOf(user_id) !== -1)
+            {
+                const index = fanfic.liked.indexOf(user_id)
+                fanfic.liked.splice(index, 1)
+            }
+            if (fanfic.dis_liked.length === 0) {
+                fanfic.dis_liked = [user_id]
+                await Fanfic.findOneAndUpdate({_id: request.params.id}, {
+                    $set: {
+                        liked: [...fanfic.liked],
+                        dis_liked: [...fanfic.dis_liked]
+                    }
+                })
+            } else {
+                if (fanfic.dis_liked.indexOf(user_id) === -1) {
+                    fanfic.dis_liked.push(user_id)
+                    await Fanfic.findOneAndUpdate({_id: request.params.id}, {
+                        $set: {
+                            liked: [...fanfic.liked],
+                            dis_liked: [...fanfic.dis_liked]
+                        }
+                    })
+                }
+            }
+            response.json({
+                liked: fanfic.liked,
+                dis_liked: fanfic.dis_liked
+            })
+
+
+        } catch (e) {
+            response.status(500).json({message: e + 'Что-то'})
+        }
+    }
+)
+
+
 module.exports = router

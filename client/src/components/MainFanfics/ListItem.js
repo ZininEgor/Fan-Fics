@@ -2,7 +2,7 @@ export default function ListItem(props) {
     return (
         <article className="p-4 flex space-x-4">
             <img src={props.fanfic.url_photo} alt="" className="flex-none w-16 h-16 rounded-lg object-cover bg-gray-100" width="144" height="144" />
-            <div className="min-w-0 relative flex-auto sm:pr-20 lg:pr-0 xl:pr-20">
+            <div onClick={() => props.detailFanfic(props.fanfic._id)} className="min-w-0 relative flex-auto sm:pr-20 lg:pr-0 xl:pr-20">
                 <h2 className="text-lg font-semibold text-black mb-0.5">
                     {props.fanfic.title}
                 </h2>
@@ -10,8 +10,7 @@ export default function ListItem(props) {
                     <div>
                         <dt className="sr-only">Time</dt>
                         <dd>
-                            {/*<abbr title={`${fanfic.liked.length} minutes`}>{fanfic.dis_liked.length}m</abbr>*/}
-                            <abbr title={`10 minutes`}>{props.fanfic.dis_liked.length}m</abbr>
+                            <abbr title={`${props.fanfic.liked.length} minutes`}>{props.fanfic.dis_liked.length}m</abbr>
                         </dd>
                     </div>
                     <div>

@@ -7,12 +7,17 @@ import {AuthContext} from "../context/AuthContext";
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import {useHttp} from "../hooks/http.hook";
 import {Loader} from "./Loader";
+import {useHistory} from "react-router-dom";
 
 export default function Fanfics() {
 
     const {request, loading} = useHttp()
     const [fanfics, setFanfics] = useState(null)
     const [fanfictions, setFanfictions] = useState(null)
+    const history = useHistory()
+    const detailFanfic = (id) => {
+        history.push(`/fanfics/detail/${id}`)
+    }
 
     const getFanfic = useCallback(async () => {
         try {
@@ -220,7 +225,7 @@ export default function Fanfics() {
                 <div className="row-span-5 col-span-2 shadow sm:rounded-md bg-white sm:overflow-hidden">
                     <List>
                         {fanfics.map((fanfic) => (
-                            <ListItem key={fanfic.id} fanfic={fanfic}/>
+                            <ListItem key={fanfic.id} detailFanfic={detailFanfic} fanfic={fanfic}/>
                         ))}
                     </List>
                     <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
