@@ -12,7 +12,10 @@ app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/comments', require('./routes/comments.routes'))
 app.use('/api/fanfics', require('./routes/fanfics.all'))
 app.use('/api/my-fanfiction', require('./routes/my-fanfics.routes'))
-
+app.get('*', function (req, res) {
+    const index = path.join(__dirname, 'build', 'index.html');
+    res.sendFile(index);
+});
 const PORT = process.env.PORT || 5000
 
 if (process.env.NODE_ENV === 'production'){
