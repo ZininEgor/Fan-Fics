@@ -13,8 +13,7 @@ app.use('/api/comments', require('./routes/comments.routes'))
 app.use('/api/fanfics', require('./routes/fanfics.all'))
 app.use('/api/my-fanfiction', require('./routes/my-fanfics.routes'))
 app.get('*', function (req, res) {
-    const index = path.join(__dirname, 'build', 'index.html');
-    res.sendFile(index);
+    res.sendFile('index.html');
 });
 const PORT = process.env.PORT || 5000
 
