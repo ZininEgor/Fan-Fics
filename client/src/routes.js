@@ -10,6 +10,7 @@ import {WriteFanfic} from "./pages/WriteFanfics";
 import {DetailFanfic} from "./pages/DetailFanfics";
 import {MainFanficPage} from "./pages/MainFanficPage";
 import {ReadFanficPage} from "./pages/ReadFanficPage";
+import {ConfirmEmailPage} from "./pages/ConfirmEmailPage";
 
 export const useRoutes = isAuthenticated => {
     if (isAuthenticated) {
@@ -49,6 +50,9 @@ export const useRoutes = isAuthenticated => {
             </Route>
             <Route path="/fanfics" exact>
                 <MainFanficPage/>
+            </Route>
+            <Route path="/activate/:token" exact>
+                <ConfirmEmailPage/>
             </Route>
             <Route path="/fanfics/detail/:id" exact>
                 <ReadFanficPage/>
