@@ -8,7 +8,7 @@ import {Loader} from "./components/Loader";
 import {Footer} from "./components/footer";
 
 
-function App() {
+function Server() {
     const {token, login, logout, userId, ready} = useAuth()
     const isAuthenticated = !!token
     const routes = useRoutes(isAuthenticated)
@@ -33,4 +33,4 @@ function App() {
     )
 }
 
-export default App;
+export default Server;
