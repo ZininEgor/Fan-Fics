@@ -14,7 +14,7 @@ app.use('/api/comments', require('./routes/comments.routes'))
 app.use('/api/fanfics', require('./routes/fanfics.all'))
 app.use('/api/my-fanfiction', require('./routes/my-fanfics.routes'))
 
-const PORT = config.get('port') || 5000
+const PORT = process.env.PORT || 5000
 
 async function start() {
     try {
