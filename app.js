@@ -4,9 +4,8 @@ const mongoose = require('mongoose')
 
 
 const app = express()
-
 app.use(express.json({extended: true}))
-app.use(express.static(__dirname));
+app.use(express.static('client/build/'))
 app.use('/api/profile', require('./routes/profile.routes'))
 app.use('/api/fanfictions', require('./routes/fanfiction.routes'))
 app.use('/api/auth', require('./routes/auth.routes'))
@@ -15,6 +14,10 @@ app.use('/api/fanfics', require('./routes/fanfics.all'))
 app.use('/api/my-fanfiction', require('./routes/my-fanfics.routes'))
 
 const PORT = process.env.PORT || 5000
+
+if (process.env.NODE_ENV === 'production'){
+    app.use(express.static('client/build/'))
+}
 
 async function start() {
     try {
