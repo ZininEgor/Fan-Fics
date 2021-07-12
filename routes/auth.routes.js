@@ -37,7 +37,7 @@ async function sendMail(email, token) {
             from: "Fan-Fics 🌚 <freddie7789123456@gmail.com>",
             to: email,
             subject: "Пройдите по ссылке чтобы завершить найстроку аккаунта",
-            text: "ABOBA",
+            text: "Fanfics tech",
             html: `
                     <h1>Добро пожаловать на Fan-Fics</h1>
                     <a href="http://localhost:3000/activate/${token}">Кликай на меня</a>
