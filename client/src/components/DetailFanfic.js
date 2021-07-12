@@ -82,9 +82,6 @@ export default function DetailMyFanfic() {
         setTitle(event.target.value)
     }
 
-    if (loading || !fanfictions) {
-        return <Loader/>
-    }
 
     const save = () => {
         updateFanfic(title, text, currentFanfiction)

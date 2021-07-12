@@ -56,10 +56,6 @@ export const ProfilePage = () => {
         getFanfiction()
     }, [getFanfiction])
 
-    if (loading) {
-        return <Loader/>
-    }
-
     return (
         <>
             {!loading && profile && fan &&

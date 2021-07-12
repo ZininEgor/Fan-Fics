@@ -11,5 +11,5 @@ const schema = new Schema({
     raiting: {type: String, required: true, default: "0"},
     fanfiction: {type: Types.ObjectId, ref: 'Fanfiction'},
 })
-
+schema.index({title: 'text', body: 'text'});
 module.exports = model('Fanfic', schema)

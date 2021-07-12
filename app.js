@@ -10,6 +10,7 @@ app.use(express.static(__dirname));
 app.use('/api/profile', require('./routes/profile.routes'))
 app.use('/api/fanfictions', require('./routes/fanfiction.routes'))
 app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/api/comments', require('./routes/comments.routes'))
 app.use('/api/fanfics', require('./routes/fanfics.all'))
 app.use('/api/my-fanfiction', require('./routes/my-fanfics.routes'))
 

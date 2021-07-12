@@ -7,11 +7,6 @@ export const DetailFanfic = () => {
 
     const {ready} = useAuth()
 
-
-    if (!ready) {
-        return <Loader/>
-    }
-
     return (
         <DetailMyFanfic/>
     )

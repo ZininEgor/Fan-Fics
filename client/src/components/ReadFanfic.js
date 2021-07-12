@@ -20,6 +20,8 @@ export default function DetailMyFanfic() {
     const [user, setUser] = useState(null)
     const [text, setText] = useState()
     const [rating, setRating] = useState()
+    const [comment, setComment] = useState(null)
+    const [commentList, setCommentList] = useState()
     const [title, setTitle] = useState(null)
     const [currentFanfiction, setCurrentFanfiction] = useState(null)
 
@@ -44,6 +46,14 @@ export default function DetailMyFanfic() {
         }
     }, [request])
 
+    const getComment = useCallback(async () => {
+        try {
+            const fetched = await request(`/api/comments/${id}`, 'GET')
+            setCommentList([...fetched])
+        } catch (e) {
+        }
+    }, [request])
+
     const clickLike = useCallback(async () => {
         try {
             const fetched = await request(`/api/fanfics/like/${id}`, 'POST', {
@@ -57,6 +67,22 @@ export default function DetailMyFanfic() {
         } catch (e) {
         }
     }, [request])
+
+    const sendComment = useCallback(async (body) => {
+        try {
+            const fetched = await request("/api/comments", 'POST', {
+                user_id: auth.userId,
+                fanfic_id: id,
+                body: body
+            }, {
+                Authorization: `Bearer ${auth.token}`
+            })
+            setComment("")
+            getComment()
+        } catch (e) {
+        }
+    }, [request])
+
 
     const clickDislike = useCallback(async () => {
         try {
@@ -85,8 +111,17 @@ export default function DetailMyFanfic() {
     }, [getFanfic])
 
     useEffect(() => {
+        getComment()
+    }, [getComment])
+
+    useEffect(() => {
         getFanfiction()
     }, [getFanfiction])
+
+
+    const changeCommentBody = event => {
+        setComment(event.currentTarget.value)
+    }
 
 
     const mdParser = new MarkdownIt()
@@ -95,14 +130,16 @@ export default function DetailMyFanfic() {
         setText(text)
     }
 
-    if (loading || !fanfictions || user === null) {
+    if (loading || !fanfictions || user === null || commentList === undefined) {
         return <Loader/>
     }
 
     return (
         <>
-            {fanfictions && rating &&
+            {fanfictions && rating && commentList &&
             <div className="mt-10 pt-10 mx-10 justify-center sm:mt-0">
+                {console.log(commentList)}
+                {console.log(commentList)}
                 <div className="md:grid  justify-center md:gap-6">
                     <div className="mt-5 md:mt-0 ">
                         <form action="#" method="POST">
@@ -225,11 +262,111 @@ export default function DetailMyFanfic() {
 
                                         <div className="col-span-6 max-w-2xl">
                                             <MdEditor view={{md: false, menu: true, fullScreen: true}}
-                                                      style={{height: '500px', weight: '100px'}}
+                                                      style={{height: '350px', weight: '100px'}}
                                                       defaultValue={text}
                                                       renderHTML={text => mdParser.render(text)}
                                                       onChange={handleEditorChange}/>
                                         </div>
+
+                                        <div className="col-span-6 max-w-2xl">
+                                            <div className="hidden sm:block" aria-hidden="true">
+                                                <div className="py-5">
+                                                    <div className="border-t border-gray-200"/>
+                                                </div>
+                                            </div>
+                                            <p
+                                                id="first-name"
+                                                className="text-lime-600 dark:text-lime-400 text-sm sm:text-base lg:text-sm xl:text-base font-semibold uppercase"
+                                            >
+                                                Комментарии
+                                            </p>
+                                            <div
+                                                className="flex mx-auto items-center justify-center mb-4 max-w-2xl">
+                                                <div className="w-full max-w-xl bg-white rounded-lg px-4 pt-2">
+                                                    <div className="flex flex-wrap -mx-3 mb-6">
+                                                        <div className="w-full md:w-full px-3 mb-2 mt-2">
+                                                            <textarea
+                                                                className="bg-gray-100 rounded border border-gray-400 place-holder-gray-50 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+                                                                name="body"
+                                                                onChange={changeCommentBody}
+                                                                placeholder="Поделись своим мнением"
+                                                                required
+                                                                defaultValue={""}
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            className="w-full md:w-full flex items-start md:w-full px-3">
+                                                            <div
+                                                                className="flex items-start w-1/2 text-gray-700 px-2 mr-auto">
+                                                                <svg
+                                                                    fill="none"
+                                                                    className="w-5 h-5 text-gray-600 mr-1"
+                                                                    viewBox="0 0 24 24"
+                                                                    stroke="currentColor"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={2}
+                                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                    />
+                                                                </svg>
+                                                                <p
+                                                                    id="first-name"
+                                                                    className="text-lime-600 dark:text-lime-400 text-sm sm:text-sm lg:text-sm xl:text-sm"
+                                                                >
+                                                                    Пожалуйста,уважайте себя и других участников
+                                                                    сообщества
+                                                                </p>
+
+                                                            </div>
+                                                            <div className="-mr-1">
+                                                                <button
+                                                                    onClick={() => sendComment(comment)}
+                                                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                                >
+                                                                    Отправить
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div className="col-span-6 max-w-2xl">
+                                            <div className="hidden sm:block" aria-hidden="true">
+                                                <div className="pb-5">
+                                                    <div className="border-t border-gray-200"/>
+                                                </div>
+                                            </div>
+                                            {
+                                                commentList.map((comment) => {
+                                                    return <div className="flex w-full mt-5 pb-10 space-x-3 max-w-2xl">
+                                                        <div className="flex-shrink-0 h-10 max-w-xl rounded-full">
+                                                    <span
+                                                        className="h-14 w-14 rounded-full overflow-hidden bg-gray-100">
+                                                        <p className="text-lime-600 dark:text-lime-400 text-xs sm:text-xs lg:text-xs xl:text-xs">
+                                                                {comment.user_name}
+                                                        </p>
+                                                <img src={comment.photo}
+                                                     className="h-14 w-14 text-gray-300" fill="currentColor"
+                                                     viewBox="0 0 18 18"/>
+                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+                                                                <p className="text-sm">
+                                                                    {comment.body}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                })
+                                            }
+                                        </div>
+
                                     </div>
 
                                 </div>
