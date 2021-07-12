@@ -17,16 +17,10 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function NavBar() {
+export default function NavBar(props) {
 
     const history = useHistory()
     const auth = useContext(AuthContext)
-
-
-    const darkMode = () => {
-        localStorage.theme = 'dark'
-        // localStorage.theme = 'light'
-    }
 
     const logoutHandler = event => {
         event.preventDefault()
@@ -46,16 +40,16 @@ export default function NavBar() {
                                 <NavLink to="/">
                                     <span className="sr-only">Workflow</span>
                                     <p
-                                        className="text-4xl font-black leading-none text-gray-900 select-none logo"
+                                        className="text-4xl font-black dark:text-white leading-none text-gray-900 select-none logo"
                                         bis_skin_checked={1}
                                     >
-                                        Fan-Fics<span className="text-indigo-600">.</span>
+                                        Fan-Fics<span className="text-indigo-600 dark:text-indigo-400">.</span>
                                     </p>
                                 </NavLink>
                                 <NavLink
                                     to="/"
-                                    className="pl-8 pt-2 text-base font-medium text-gray-500 hover:text-gray-900"
-                                    onClick={darkMode}
+                                    className="pl-8 pt-2 text-base font-medium text-gray-500 dark:text-yellow-200 hover:text-gray-900"
+                                    onClick={props.darkMode}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -72,20 +66,20 @@ export default function NavBar() {
                             <Popover.Group as="nav" className="hidden md:flex space-x-10">
 
                                 <NavLink to="/about"
-                                         className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                         className="text-base font-medium text-gray-500 dark:text-white hover:text-gray-900">
                                     О нас
                                 </NavLink>
 
                                 {
                                     auth.isAuthenticated &&
                                     <NavLink to="/my-fanfics"
-                                             className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                             className="text-base font-medium text-gray-500 dark:text-white hover:text-gray-900">
                                         Мои фанфики
                                     </NavLink>
                                 }
 
                                 <NavLink to="/fanfics"
-                                         className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                         className="text-base font-medium text-gray-500 dark:text-white hover:text-gray-900">
                                     Читать фанфики
                                 </NavLink>
                             </Popover.Group>
@@ -95,21 +89,20 @@ export default function NavBar() {
                                     <NavLink
                                         to="/"
                                         className="text-gray-500 hover:text-gray-900"
-                                        onClick={darkMode}
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                                         </svg>
                                     </NavLink>
                                     <NavLink
                                         to="/sign-in"
-                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-700"
                                     >
                                         Войти
                                     </NavLink>
                                     <NavLink
                                         to="/sign-up"
-                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-700"
                                     >
                                         Зарегистрироваться
                                     </NavLink>
@@ -121,21 +114,20 @@ export default function NavBar() {
                                     <NavLink
                                         to="/"
                                         className="text-gray-500 hover:text-gray-900"
-                                        onClick={darkMode}
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                                         </svg>
                                     </NavLink>
                                     <NavLink
                                         to="/profile"
-                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-700"
                                     >
                                         Профиль
                                     </NavLink>
                                     <NavLink
                                         to="/"
-                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-700"
                                         onClick={logoutHandler}
                                     >
                                         Выйти

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {BrowserRouter as Router} from "react-router-dom"
 import {AuthContext} from './context/AuthContext'
 import {useRoutes} from "./routes";
@@ -12,10 +12,23 @@ function Server() {
     const {token, login, logout, userId, ready} = useAuth()
     const isAuthenticated = !!token
     const routes = useRoutes(isAuthenticated)
-
+    const [theme, setTheme] = useState(localStorage.theme)
 
     if (!ready) {
         return <Loader/>
+    }
+
+    const darkMode = () => {
+        if (localStorage.theme === 'dark'){
+            setTheme("light")
+            return localStorage.theme = 'light'
+        }
+        if (localStorage.theme === 'light'){
+            setTheme("dark")
+            return localStorage.theme = 'dark'
+        }
+        setTheme("dark")
+        localStorage.theme = 'dark'
     }
 
     return (
@@ -23,8 +36,8 @@ function Server() {
             token, login, logout, userId, isAuthenticated
         }}>
             <Router>
-                <div className="min-h-screen">
-                    <NavBar/>
+                <div className={localStorage.theme}>
+                    <NavBar darkMode={darkMode}/>
                     {routes}
                     <Footer/>
                 </div>
